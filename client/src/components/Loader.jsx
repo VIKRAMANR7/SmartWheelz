@@ -1,0 +1,7 @@
+export default function Loader() {
+  return (
+    <div className="flex justify-center items-center h-[80vh]">
+      <div className="animate-spin rounded-full size-14 border-4 border-gray-300 border-t-primary"></div>
+    </div>
+  );
+}
