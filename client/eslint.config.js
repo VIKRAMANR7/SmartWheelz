@@ -1,29 +1,51 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    ignores: ["dist/**", "node_modules/**"],
+  },
+
+  js.configs.recommended,
+
+  {
+    files: ["src/**/*.{ts,tsx}"],
+
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      parser: tsParser,
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: "latest",
+        sourceType: "module",
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.es2021,
       },
     },
+
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      "react-hooks": reactHooks,
+    },
+
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // TypeScript
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/consistent-type-imports": "error",
+
+      // React Hooks
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
+      // Disable JS duplicate rule
+      "no-unused-vars": "off",
+
+      // Fix React 19 "React is not defined" issue
+      "no-undef": "off",
     },
   },
-])
+];
