@@ -1,44 +1,33 @@
 {
   "compilerOptions": {
-    /* Language and environment */
     "target": "ES2022",
     "lib": ["ES2022"],
 
-    /* Module settings (Node 20 + pnpm + tsx) */
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
 
-    /* Project structure */
     "rootDir": "./src",
     "outDir": "./dist",
 
-    /* Type safety */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
 
-    /* Recommended interop flags */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
 
-    /* Output quality */
     "removeComments": true,
     "sourceMap": true,
     "skipLibCheck": true,
 
-    /* Misc */
     "forceConsistentCasingInFileNames": true,
 
-    /* Prevent TypeScript from forcing advanced checks on you */
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitReturns": false,
-
-    /* Types */
-    "typeRoots": ["./node_modules/@types"]
+    "noImplicitReturns": false
   },
 
-  "include": ["src/**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
