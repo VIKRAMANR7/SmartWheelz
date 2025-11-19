@@ -1,92 +1,113 @@
 # 🚗 SmartWheelz – Full-Stack Car Rental Platform
 
-A complete production-grade **car rental system** where users can rent cars and owners can list/manage vehicles.
-Built with **React, TypeScript, Vite, Tailwind CSS, Node.js, Express, MongoDB, and ImageKit**, featuring:
+A production‑ready **car rental system** where users can rent cars and owners can manage their fleet.
 
-- Real-time booking validation  
-- Soft delete system for cars  
-- Secure JWT authentication with rotating session keys  
-- Owner dashboard with analytics  
+Hosted on **Render**:
+
+- **Frontend:** https://smartwheelz-frontend.onrender.com
+- **Backend API:** https://smartwheelz.onrender.com
 
 ---
 
 ## 📸 Screenshots
 
-> Add real screenshots inside `/screenshots` folder.
+Place your screenshots inside:
+`client/public/screenshots/`
 
-### Landing Page  
+Recommended file names:
+
+- landing.png
+- cars.png
+- car-details.png
+- dashboard.png
+- manage-bookings.png
+
+Example:
+
+```md
+### Landing Page
+
 ![Landing](./screenshots/landing.png)
 
-### Car Details  
+### Cars Page
+
+![Cars](./screenshots/cars.png)
+
+### Car Details
+
 ![Car Details](./screenshots/car-details.png)
 
-### Owner Dashboard  
+### Owner Dashboard
+
 ![Dashboard](./screenshots/dashboard.png)
 
-### Manage Bookings  
+### Manage Bookings
+
 ![Manage Bookings](./screenshots/manage-bookings.png)
+```
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-## 🧑‍💻 For Renters (Users)
-- 🔍 Smart search & filters  
-- 📅 Real-time date-based availability  
-- 💰 Auto price calculation (days × pricePerDay)  
-- 🚗 Detailed car specification pages  
-- 📜 Booking history with statuses  
+### 🧑‍💻 User Features
 
-## 🏢 For Owners
-- 📊 Dashboard analytics (cars, bookings, revenue)  
-- 🚘 Add new cars with ImageKit uploads  
-- 🔄 Toggle availability  
-- 📦 Archive / Restore (Soft Delete)  
-- ❌ Permanent Delete (Hard Delete)  
-- 📖 Manage bookings & approvals  
+- Browse cars
+- Smart search & filters
+- Real‑time availability checking
+- Price auto‑calculation
+- Booking history
 
-## 🔐 Authentication & Security
-- JWT-based auth with rotating `SESSION_KEY`  
-- Role-based access control (user/owner)  
-- bcrypt password hashing  
-- Protected API routes  
+### 🏢 Owner Features
 
-## 🎨 UI/UX
-- Tailwind CSS 4 custom theme  
-- Framer Motion animations  
-- React Hot Toast notifications  
-- Skeleton loaders  
-- Smooth navigation transitions  
+- Dashboard analytics
+- Add / manage / delete cars
+- Soft delete + hard delete
+- Toggle availability
+- Manage booking statuses
+
+### 🔐 Authentication & Security
+
+- JWT with rotating session key
+- bcrypt password hashing
+- Protected routes
+
+### 🎨 UI
+
+- React 19
+- Tailwind 4
+- Motion animations
+- Clean responsive UI
 
 ---
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 ### **Frontend**
-- React 19  
-- TypeScript  
-- Vite  
-- React Router DOM 7  
-- Tailwind CSS 4  
-- Framer Motion  
-- Axios  
+
+- React 19 + TypeScript
+- Vite 7
+- TailwindCSS 4
+- React Router 7
+- Axios
 
 ### **Backend**
-- Node.js + Express 5  
-- MongoDB + Mongoose 8  
-- Multer  
-- JWT  
-- bcrypt  
-- ImageKit SDK  
+
+- Node.js + Express 5
+- MongoDB + Mongoose 8
+- Multer
+- JWT
+- ImageKit
 
 ---
 
-# 🚀 Installation & Setup
+# 🚀 Local Development Setup
 
 ## 1️⃣ Clone Repo
+
 ```bash
-git clone https://github.com/yourusername/smartwheelz.git
-cd smartwheelz
+git clone https://github.com/VIKRAMANR7/SmartWheelz.git
+cd SmartWheelz
 ```
 
 ---
@@ -99,25 +120,22 @@ pnpm install
 ```
 
 ### Create `.env`
-```env
-# Database
-MONGODB_URI=
 
-# Auth
+```
+MONGODB_URI=
 JWT_SECRET=
 
-# ImageKit
 IMAGEKIT_PUBLIC_KEY=
 IMAGEKIT_PRIVATE_KEY=
 IMAGEKIT_URL_ENDPOINT=
 
-# Server
 PORT=5000
 ```
 
-### Run server
+### Run Server
+
 ```bash
-pnpm run dev
+pnpm dev
 ```
 
 ---
@@ -130,12 +148,14 @@ pnpm install
 ```
 
 ### Create `.env`
-```env
+
+```
 VITE_BASE_URL=http://localhost:5000
 VITE_CURRENCY=₹
 ```
 
-### Start client
+### Run Frontend
+
 ```bash
 pnpm dev
 ```
@@ -144,169 +164,106 @@ pnpm dev
 
 # 🗂 Project Structure
 
-```txt
-smartwheelz/
+```
+SmartWheelz/
 ├── client/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── CarCard.tsx
-│   │   │   ├── Title.tsx
-│   │   │   └── owner/
-│   │   ├── pages/
-│   │   │   ├── Home.tsx
-│   │   │   ├── Cars.tsx
-│   │   │   ├── CarDetails.tsx
-│   │   │   ├── MyBookings.tsx
-│   │   │   └── owner/
-│   │   │       ├── Dashboard.tsx
-│   │   │       ├── AddCar.tsx
-│   │   │       ├── ManageCars.tsx
-│   │   │       └── ManageBooking.tsx
-│   │   ├── context/AppContext.tsx
-│   │   ├── types/
-│   │   │   ├── car.d.ts
-│   │   │   ├── user.d.ts
-│   │   │   ├── booking.d.ts
-│   │   │   └── context.d.ts
-│   └── public/
-│
-├── server/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/
-│   ├── models/
-│   ├── configs/
-│   └── server.ts
+│   ├── public/
+│   │   └── screenshots/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── context/
+│       ├── utils/
+│       └── types/
+└── server/
+    ├── controllers/
+    ├── routes/
+    ├── middleware/
+    ├── models/
+    ├── configs/
+    └── server.ts
 ```
 
 ---
 
-# 📌 API Reference
+# 🔗 API Endpoints
 
-## 🔹 User Routes (`/api/user`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/register` | Register |
-| POST | `/login` | Login |
-| GET | `/data` | Get logged-in user |
-| GET | `/cars` | Public car list |
+## User `/api/user`
 
----
-
-## 🔹 Owner Routes (`/api/owner`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/change-role` | Upgrade to owner |
-| POST | `/add-car` | Add new car |
-| GET | `/cars` | Owner's cars |
-| POST | `/toggle-car` | Toggle availability |
-| POST | `/delete-car` | Soft delete |
-| DELETE | `/delete-car/:id` | Permanent delete |
-| GET | `/dashboard` | Dashboard metrics |
+| Method | Endpoint    | Description        |
+| ------ | ----------- | ------------------ |
+| POST   | `/register` | Register user      |
+| POST   | `/login`    | Login              |
+| GET    | `/data`     | Get logged‑in user |
 
 ---
 
-## 🔹 Booking Routes (`/api/bookings`)
-| Method | Endpoint | Description |
-|--------|---------|-------------|
-| POST | `/check-availability` | Date-range check |
-| POST | `/create` | Create booking |
-| GET | `/user` | User bookings |
-| GET | `/owner` | Owner bookings |
-| POST | `/change-status` | Update booking status |
+## Owner `/api/owner`
+
+| Method | Endpoint          | Description         |
+| ------ | ----------------- | ------------------- |
+| POST   | `/add-car`        | Add new car         |
+| GET    | `/cars`           | Owner cars          |
+| POST   | `/toggle-car`     | Toggle availability |
+| DELETE | `/delete-car/:id` | Hard delete         |
 
 ---
 
-# 🧮 Important Algorithms
+## Bookings `/api/bookings`
 
-### 🗓 Availability Check (No double booking)
+| Method | Endpoint              | Description           |
+| ------ | --------------------- | --------------------- |
+| POST   | `/create`             | Create booking        |
+| POST   | `/check-availability` | Check available dates |
+| GET    | `/user`               | User bookings         |
+| GET    | `/owner`              | Owner bookings        |
+
+---
+
+# 🧮 Algorithms
+
+### Booking Conflict Check
+
 ```ts
 const conflict = await Booking.find({
   car: carId,
   pickupDate: { $lte: returnDate },
-  returnDate: { $gte: pickupDate }
+  returnDate: { $gte: pickupDate },
 });
 ```
 
-### 💰 Price Calculation
-```ts
-const days = Math.ceil(
-  (new Date(returnDate) - new Date(pickupDate)) /
-  (1000 * 60 * 60 * 24)
-);
+### Price Calculation
 
+```ts
+const days = Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24));
 const price = days * car.pricePerDay;
-```
-
-### 🔐 JWT with Rotating Session Key
-```ts
-export const SESSION_KEY = crypto.randomBytes(32).toString("hex");
-
-const token = jwt.sign(
-  payload,
-  process.env.JWT_SECRET + SESSION_KEY
-);
 ```
 
 ---
 
-# 🚀 Deployment (Vercel)
+# 🛫 Deployment (Render)
 
-### Backend
-```bash
-cd server
-vercel --prod
-```
+### **Frontend**
 
-### Frontend
-```bash
-cd client
-pnpm build
-vercel --prod
-```
+- Build Command: `pnpm build`
+- Publish Directory: `client/dist`
 
-### Production `.env` (Server)
-```env
-MONGODB_URI=
-JWT_SECRET=
-IMAGEKIT_PUBLIC_KEY=
-IMAGEKIT_PRIVATE_KEY=
-IMAGEKIT_URL_ENDPOINT=
-PORT=5000
-```
+### **Backend**
 
-### Production `.env` (Client)
-```env
-VITE_BASE_URL=https://your-backend.vercel.app
-VITE_CURRENCY=₹
-```
+- Build Command: `pnpm install && pnpm build`
+- Start Command: `node dist/server.js`
 
 ---
 
 # ✔️ Post Deployment Checklist
 
-- Update client `.env`  
-- Test booking flow  
-- Test ImageKit uploads  
-- Check dashboard revenue  
-- Ensure MongoDB Atlas IP whitelist is correct  
+- Update frontend `.env` with Render backend URL
+- Test login + booking flow
+- Test ImageKit uploads
+- Test owner dashboard
 
 ---
 
-# 🤝 Contributing
+# ⭐ Support
 
-1. Fork  
-2. Create feature branch  
-3. Commit  
-4. Open PR  
-
----
-
-# 📜 License
-
-MIT License  
-
----
-
-# ⭐ Support  
-If this project helped you, **please star the repository!**
+If you like this project → **Star the repo!**
