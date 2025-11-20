@@ -11,40 +11,25 @@ Hosted on **Render**:
 
 ## 📸 Screenshots
 
-Place your screenshots inside:
-`client/public/screenshots/`
-
-Recommended file names:
-
-- landing.png
-- cars.png
-- car-details.png
-- dashboard.png
-- manage-bookings.png
-
-Example:
-
-```md
 ### Landing Page
 
-![Landing](./screenshots/landing.png)
+![Landing](client/public/screenshots/landing.png)
 
 ### Cars Page
 
-![Cars](./screenshots/cars.png)
+![Cars](client/public/screenshots/cars.png)
 
 ### Car Details
 
-![Car Details](./screenshots/car-details.png)
+![Car Details](client/public/screenshots/car-details.png)
 
 ### Owner Dashboard
 
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](client/public/screenshots/dashboard.png)
 
 ### Manage Bookings
 
-![Manage Bookings](./screenshots/manage-bookings.png)
-```
+![Manage Bookings](client/public/screenshots/manage-bookings.png)
 
 ---
 
@@ -101,9 +86,9 @@ Example:
 
 ---
 
-# 🚀 Local Development Setup
+## 🚀 Local Development Setup
 
-## 1️⃣ Clone Repo
+### 1️⃣ Clone Repo
 
 ```bash
 git clone https://github.com/VIKRAMANR7/SmartWheelz.git
@@ -112,7 +97,7 @@ cd SmartWheelz
 
 ---
 
-# ⚙️ Backend Setup
+## ⚙️ Backend Setup
 
 ```bash
 cd server
@@ -121,7 +106,7 @@ pnpm install
 
 ### Create `.env`
 
-```
+```env
 MONGODB_URI=
 JWT_SECRET=
 
@@ -140,7 +125,7 @@ pnpm dev
 
 ---
 
-# 💻 Frontend Setup
+## 💻 Frontend Setup
 
 ```bash
 cd client
@@ -149,7 +134,7 @@ pnpm install
 
 ### Create `.env`
 
-```
+```env
 VITE_BASE_URL=http://localhost:5000
 VITE_CURRENCY=₹
 ```
@@ -162,7 +147,7 @@ pnpm dev
 
 ---
 
-# 🗂 Project Structure
+## 🗂 Project Structure
 
 ```
 SmartWheelz/
@@ -186,9 +171,9 @@ SmartWheelz/
 
 ---
 
-# 🔗 API Endpoints
+## 🔗 API Endpoints
 
-## User `/api/user`
+### User `/api/user`
 
 | Method | Endpoint    | Description        |
 | ------ | ----------- | ------------------ |
@@ -198,7 +183,7 @@ SmartWheelz/
 
 ---
 
-## Owner `/api/owner`
+### Owner `/api/owner`
 
 | Method | Endpoint          | Description         |
 | ------ | ----------------- | ------------------- |
@@ -209,7 +194,7 @@ SmartWheelz/
 
 ---
 
-## Bookings `/api/bookings`
+### Bookings `/api/bookings`
 
 | Method | Endpoint              | Description           |
 | ------ | --------------------- | --------------------- |
@@ -220,7 +205,7 @@ SmartWheelz/
 
 ---
 
-# 🧮 Algorithms
+## 🧮 Algorithms
 
 ### Booking Conflict Check
 
@@ -241,7 +226,7 @@ const price = days * car.pricePerDay;
 
 ---
 
-# 🛫 Deployment (Render)
+## 🛫 Deployment (Render)
 
 ### **Frontend**
 
@@ -255,7 +240,7 @@ const price = days * car.pricePerDay;
 
 ---
 
-# ✔️ Post Deployment Checklist
+## ✔️ Post Deployment Checklist
 
 - Update frontend `.env` with Render backend URL
 - Test login + booking flow
@@ -264,6 +249,6 @@ const price = days * car.pricePerDay;
 
 ---
 
-# ⭐ Support
+## ⭐ Support
 
 If you like this project → **Star the repo!**

@@ -11,7 +11,7 @@ module.exports = [
       parser: tsParser,
       parserOptions: {
         ecmaVersion: "latest",
-        sourceType: "module"
+        sourceType: "module",
       },
     },
     plugins: {
@@ -22,7 +22,7 @@ module.exports = [
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-      "prettier/prettier": "error"
+      "prettier/prettier": "error",
     },
   },
 ];
