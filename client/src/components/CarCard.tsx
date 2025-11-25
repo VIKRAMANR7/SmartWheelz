@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { assets } from "@/assets/assets";
-import type { ICar } from "@/types/car";
+import { assets } from "../assets/assets";
+import type { ICar } from "../types/car";
 
 interface CarCardProps {
   car: ICar;

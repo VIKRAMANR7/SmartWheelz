@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { getErrorMessage } from "@/utils/error";
-import { useAppContext } from "@/context/AppContext";
+import { getErrorMessage } from "../utils/error";
+import { useAppContext } from "../context/AppContext";
 import type { AxiosError } from "axios";
 
 export default function Login() {

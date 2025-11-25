@@ -1,11 +1,11 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { assets } from "@/assets/assets";
-import Title from "@/components/owner/OwnerSectionHeader";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets } from "../../assets/assets";
+import Title from "../../components/owner/OwnerSectionHeader";
+import { useAppContext } from "../../context/AppContext";
+import { getErrorMessage } from "../../utils/error";
 
-import type { CarForm } from "@/types/car";
+import type { CarForm } from "../../types/car";
 
 const initialCarData: CarForm = {
   brand: "",

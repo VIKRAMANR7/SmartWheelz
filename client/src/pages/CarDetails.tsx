@@ -3,11 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { assets } from "@/assets/assets";
-import Loader from "@/components/Loader";
-import { useAppContext } from "@/context/AppContext";
+import { assets } from "../assets/assets";
+import Loader from "../components/Loader";
+import { useAppContext } from "../context/AppContext";
 import type { AxiosError } from "axios";
-import { getErrorMessage } from "@/utils/error";
+import { getErrorMessage } from "../utils/error";
 
 export default function CarDetails() {
   const { id } = useParams();

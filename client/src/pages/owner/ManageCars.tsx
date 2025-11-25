@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
-import { assets } from "@/assets/assets";
-import Title from "@/components/owner/OwnerSectionHeader";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets } from "../../assets/assets";
+import Title from "../../components/owner/OwnerSectionHeader";
+import { useAppContext } from "../../context/AppContext";
+import { getErrorMessage } from "../../utils/error";
 
-import type { CarDashboardItem } from "@/types/car";
+import type { CarDashboardItem } from "../../types/car";
 
 export default function ManageCars() {
   const { isOwner, axios, currency } = useAppContext();

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useState, type FormEvent } from "react";
-import { assets, cityList } from "@/assets/assets";
-import { useAppContext } from "@/context/AppContext";
+import { assets, cityList } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
 export default function Hero() {
   const [pickupLocation, setPickupLocation] = useState("");

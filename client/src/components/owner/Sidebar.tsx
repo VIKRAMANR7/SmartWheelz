@@ -2,9 +2,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { assets, ownerMenuLinks } from "@/assets/assets";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets, ownerMenuLinks } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
+import { getErrorMessage } from "../../utils/error";
 
 export default function Sidebar() {
   const { user, axios, verifyAndFetchUser } = useAppContext();

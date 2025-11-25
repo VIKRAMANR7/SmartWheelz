@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { assets } from "@/assets/assets";
-import { useAppContext } from "@/context/AppContext";
+import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
 
 export default function NavbarOwner() {
   const { user } = useAppContext();

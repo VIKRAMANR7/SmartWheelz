@@ -1,12 +1,12 @@
 import { motion } from "motion/react";
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
-import { assets } from "@/assets/assets";
-import Title from "@/components/Title";
-import { useAppContext } from "@/context/AppContext";
-import type { IBooking } from "@/types/booking";
+import { assets } from "../assets/assets";
+import Title from "../components/Title";
+import { useAppContext } from "../context/AppContext";
+import type { IBooking } from "../types/booking";
 import type { AxiosError } from "axios";
-import { getErrorMessage } from "@/utils/error";
+import { getErrorMessage } from "../utils/error";
 
 export default function MyBookings() {
   const { axios, user, currency, navigate, isLoading } = useAppContext();

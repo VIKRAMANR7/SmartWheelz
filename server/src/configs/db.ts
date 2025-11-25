@@ -1,14 +1,8 @@
 import mongoose from "mongoose";
 
-const MONGO_URI = process.env.MONGODB_URI || "";
-
-async function connectDB(): Promise<void> {
-  if (!MONGO_URI) {
-    throw new Error("❌ MONGODB_URI is missing in environment variables.");
-  }
-
+export async function connectDB(): Promise<void> {
   try {
-    await mongoose.connect(`${MONGO_URI}/smartwheelz`);
+    await mongoose.connect(process.env.MONGO_URI!);
     console.log("📦 MongoDB Connected Successfully!");
 
     mongoose.connection.on("disconnected", () => {

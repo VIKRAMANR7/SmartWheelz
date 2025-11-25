@@ -3,9 +3,9 @@ import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { assets, menuLinks } from "@/assets/assets";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets, menuLinks } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import { getErrorMessage } from "../utils/error";
 
 export default function Navbar() {
   const { setShowLogin, user, logout, isOwner, axios, setIsOwner, isLoading } = useAppContext();

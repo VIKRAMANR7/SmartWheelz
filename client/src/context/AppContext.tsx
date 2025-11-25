@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import { getErrorMessage } from "@/utils/error";
+import { getErrorMessage } from "../utils/error";
 
-import type { IUser } from "@/types/user";
-import type { ICar } from "@/types/car";
-import type { IAppContext } from "@/types/context";
+import type { IUser } from "../types/user";
+import type { ICar } from "../types/car";
+import type { IAppContext } from "../types/context";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 

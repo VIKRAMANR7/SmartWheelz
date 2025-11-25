@@ -4,10 +4,9 @@ import jwt from "jsonwebtoken";
 
 import Car from "../models/Car.js";
 import User from "../models/User.js";
-import { SESSION_KEY } from "../server.js";
-import { handleControllerError } from "../utils/handleError.js";
+import { SESSION_KEY } from "../configs/session.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
 
-// ---- Helper: Generate JWT Token ---- //
 function generateToken(userId: string): string {
   const payload = { id: userId };
 
@@ -16,109 +15,75 @@ function generateToken(userId: string): string {
   });
 }
 
-// ---- Register User ---- //
-export async function registerUser(req: Request, res: Response): Promise<void> {
-  try {
-    const { name, email, password } = req.body;
+export const registerUser = asyncHandler(async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
 
-    if (!name || !email || !password || password.length < 8) {
-      res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-      return;
-    }
-
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      res.json({
-        success: false,
-        message: "User already exists",
-      });
-      return;
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    const token = generateToken(user._id.toString());
-
-    res.json({
-      success: true,
-      message: "User registered successfully",
-      token,
-    });
-  } catch (error: unknown) {
-    handleControllerError(res, error);
+  if (!name || !email || !password || password.length < 8) {
+    throw new Error("All fields are required");
   }
-}
 
-// ---- Login User ---- //
-export async function loginUser(req: Request, res: Response): Promise<void> {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      res.json({
-        success: false,
-        message: "User not found",
-      });
-      return;
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      res.json({
-        success: false,
-        message: "Incorrect password",
-      });
-      return;
-    }
-
-    const token = generateToken(user._id.toString());
-
-    res.json({
-      success: true,
-      message: "User logged in successfully",
-      token,
-    });
-  } catch (error: unknown) {
-    handleControllerError(res, error);
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    throw new Error("User already exists");
   }
-}
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  const token = generateToken(user._id.toString());
+
+  res.json({
+    success: true,
+    message: "User registered successfully",
+    token,
+  });
+});
+
+export const loginUser = asyncHandler(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Incorrect password");
+  }
+
+  const token = generateToken(user._id.toString());
+
+  res.json({
+    success: true,
+    message: "User logged in successfully",
+    token,
+  });
+});
 
 // ---- Get Logged-In User ---- //
-export async function getUserData(req: Request, res: Response): Promise<void> {
-  try {
-    const { user } = req;
+export const getUserData = asyncHandler(async (req: Request, res: Response) => {
+  const { user } = req;
 
-    res.json({
-      success: true,
-      message: "User data fetched successfully",
-      user,
-    });
-  } catch (error: unknown) {
-    handleControllerError(res, error);
-  }
-}
+  res.json({
+    success: true,
+    message: "User data fetched successfully",
+    user,
+  });
+});
 
 // ---- Get All Available Cars ---- //
-export async function getCars(_req: Request, res: Response): Promise<void> {
-  try {
-    const cars = await Car.find({ isAvailable: true });
+export const getCars = asyncHandler(async (_req: Request, res: Response) => {
+  const cars = await Car.find({ isAvailable: true });
 
-    res.json({
-      success: true,
-      message: "Cars fetched successfully",
-      cars,
-    });
-  } catch (error: unknown) {
-    handleControllerError(res, error);
-  }
-}
+  res.json({
+    success: true,
+    message: "Cars fetched successfully",
+    cars,
+  });
+});

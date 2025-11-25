@@ -3,11 +3,11 @@ import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
-import { assets } from "@/assets/assets";
-import CarCard from "@/components/CarCard";
-import Title from "@/components/Title";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets } from "../assets/assets";
+import CarCard from "../components/CarCard";
+import Title from "../components/Title";
+import { useAppContext } from "../context/AppContext";
+import { getErrorMessage } from "../utils/error";
 
 export default function Cars() {
   const [searchParams] = useSearchParams();

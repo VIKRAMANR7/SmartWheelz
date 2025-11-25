@@ -2,16 +2,15 @@
   "name": "smartwheelz-client",
   "private": true,
   "version": "1.0.0",
-  "description": "Frontend for SmartWheelz — React 19, TypeScript, Vite, TailwindCSS, Motion, Axios",
+  "description": "Modern frontend for SmartWheelz — a car rental platform built with React 19, TypeScript, Vite, TailwindCSS, React Router, Motion, and Axios.",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,json,md}\""
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",

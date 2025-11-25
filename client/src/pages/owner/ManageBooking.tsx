@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
-import { assets } from "@/assets/assets";
-import Title from "@/components/owner/OwnerSectionHeader";
-import { useAppContext } from "@/context/AppContext";
-import { getErrorMessage } from "@/utils/error";
+import { assets } from "../../assets/assets";
+import Title from "../../components/owner/OwnerSectionHeader";
+import { useAppContext } from "../../context/AppContext";
+import { getErrorMessage } from "../../utils/error";
 
-import type { OwnerBooking } from "@/types/booking";
+import type { OwnerBooking } from "../../types/booking";
 
 export default function ManageBooking() {
   const { currency, axios } = useAppContext();

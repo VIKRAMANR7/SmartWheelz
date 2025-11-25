@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { assets } from "@/assets/assets";
+import { assets } from "../assets/assets";
 
 export default function Banner() {
   return (

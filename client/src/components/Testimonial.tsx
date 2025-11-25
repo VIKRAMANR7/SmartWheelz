@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import Title from "@/components/Title";
-import { testimonials, assets } from "@/assets/assets";
+import Title from "../components/Title";
+import { testimonials, assets } from "../assets/assets";
 
 export default function Testimonial() {
   return (

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { assets, footerLinks } from "@/assets/assets";
+import { assets, footerLinks } from "../assets/assets";
 
 export default function Footer() {
   return (

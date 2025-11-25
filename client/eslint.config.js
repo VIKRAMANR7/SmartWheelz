@@ -1,15 +1,12 @@
-import js from "@eslint/js";
-import globals from "globals";
-import reactHooks from "eslint-plugin-react-hooks";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import reactHooks from "eslint-plugin-react-hooks";
+import globals from "globals";
 
 export default [
   {
-    ignores: ["dist/**", "node_modules/**"],
+    ignores: ["dist/**", "node_modules/**", "**/*.d.ts"],
   },
-
-  js.configs.recommended,
 
   {
     files: ["src/**/*.{ts,tsx}"],
@@ -33,18 +30,12 @@ export default [
     },
 
     rules: {
-      // TypeScript
       "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/no-explicit-any": "off",
 
-      // React Hooks
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
 
-      // Disable JS duplicate rule
-      "no-unused-vars": "off",
-
-      // Fix React 19 "React is not defined" issue
       "no-undef": "off",
     },
   },

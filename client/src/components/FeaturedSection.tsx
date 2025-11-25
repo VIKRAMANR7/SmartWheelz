@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 
-import { assets } from "@/assets/assets";
-import { useAppContext } from "@/context/AppContext";
-import CarCard from "@/components/CarCard";
-import Title from "@/components/Title";
+import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import CarCard from "../components/CarCard";
+import Title from "../components/Title";
 
 export default function FeaturedSection() {
   const navigate = useNavigate();
