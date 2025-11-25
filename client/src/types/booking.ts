@@ -1,3 +1,5 @@
+import { ICar } from "./car";
+
 export interface IBooking {
   _id: string;
   car: ICar;
