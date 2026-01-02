@@ -14,7 +14,6 @@ export default function Navbar() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  /** Change Role */
   const changeRole = useCallback(async () => {
     try {
       const { data } = await axios.post("/api/owner/change-role");
@@ -27,18 +26,10 @@ export default function Navbar() {
         toast.error(data.message);
       }
     } catch (err) {
-      const message = getErrorMessage(err);
-
-      if (message.includes("401")) {
-        setShowLogin(true);
-        return;
-      }
-
-      toast.error(message);
+      toast.error(getErrorMessage(err));
     }
-  }, [axios, navigate, setIsOwner, setShowLogin]);
+  }, [axios, navigate, setIsOwner]);
 
-  /** When context is still verifying token */
   if (isLoading) {
     return (
       <div

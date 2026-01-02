@@ -1,5 +1,8 @@
 import multer from "multer";
 
+const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
 const storage = multer.diskStorage({
   filename: (_req, file, callback) => {
     const uniqueName = Date.now() + "-" + file.originalname;
@@ -9,18 +12,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: MAX_FILE_SIZE },
   fileFilter: (_req, file, callback) => {
-    // Allowed mimetypes
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
-    if (!allowedTypes.includes(file.mimetype)) {
-      return callback(
-        new Error("Only JPG, JPEG, PNG, and WEBP image formats are allowed") as unknown as null,
-        false
-      );
+    if (!ALLOWED_TYPES.includes(file.mimetype)) {
+      callback(new Error("Only JPG, JPEG, PNG, and WEBP formats are allowed"));
+      return;
     }
-
     callback(null, true);
   },
 });

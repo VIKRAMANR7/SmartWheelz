@@ -1,6 +1,6 @@
 import cors from "cors";
 import "dotenv/config";
-import express, { type Request, type Response } from "express";
+import express from "express";
 
 import connectDB from "./configs/db.js";
 import { validateEnv } from "./configs/validateEnv.js";
@@ -16,7 +16,6 @@ await connectDB();
 
 const app = express();
 
-// CORS
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://smartwheelz-frontend.onrender.com"],
@@ -26,13 +25,8 @@ app.use(
 
 app.use(express.json());
 
-app.use((req, _res, next) => {
-  console.log(`[${req.method}] ${req.path}`);
-  next();
-});
-
-app.get("/", (_req: Request, res: Response) => {
-  res.send("Smartwheelz API is running");
+app.get("/", (_req, res) => {
+  res.send("SmartWheelz API is running");
 });
 
 app.use("/api/user", userRouter);
@@ -41,10 +35,10 @@ app.use("/api/bookings", bookingRouter);
 
 app.use(errorHandler);
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Smartwheelz server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 export default app;

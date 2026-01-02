@@ -4,27 +4,22 @@ import jwt from "jsonwebtoken";
 
 import Car from "../models/Car.js";
 import User from "../models/User.js";
-import { SESSION_KEY } from "../configs/session.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 
-function generateToken(userId: string): string {
-  const payload = { id: userId };
-
-  return jwt.sign(payload, process.env.JWT_SECRET + SESSION_KEY, {
-    expiresIn: "7d",
-  });
+function generateToken(userId: string) {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "7d" });
 }
 
 export const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password || password.length < 8) {
-    throw new Error("All fields are required");
+    return res.status(400).json({ success: false, message: "All fields are required" });
   }
 
   const userExists = await User.findOne({ email });
   if (userExists) {
-    throw new Error("User already exists");
+    return res.status(400).json({ success: false, message: "User already exists" });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,11 +32,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 
   const token = generateToken(user._id.toString());
 
-  res.json({
-    success: true,
-    message: "User registered successfully",
-    token,
-  });
+  return res.json({ success: true, message: "User registered successfully", token });
 });
 
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
@@ -49,41 +40,25 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error("User not found");
+    return res.status(401).json({ success: false, message: "User not found" });
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error("Incorrect password");
+    return res.status(401).json({ success: false, message: "Incorrect password" });
   }
 
   const token = generateToken(user._id.toString());
 
-  res.json({
-    success: true,
-    message: "User logged in successfully",
-    token,
-  });
+  return res.json({ success: true, message: "User logged in successfully", token });
 });
 
-// ---- Get Logged-In User ---- //
 export const getUserData = asyncHandler(async (req: Request, res: Response) => {
-  const { user } = req;
-
-  res.json({
-    success: true,
-    message: "User data fetched successfully",
-    user,
-  });
+  return res.json({ success: true, message: "User data fetched successfully", user: req.user });
 });
 
-// ---- Get All Available Cars ---- //
 export const getCars = asyncHandler(async (_req: Request, res: Response) => {
   const cars = await Car.find({ isAvailable: true });
 
-  res.json({
-    success: true,
-    message: "Cars fetched successfully",
-    cars,
-  });
+  return res.json({ success: true, message: "Cars fetched successfully", cars });
 });

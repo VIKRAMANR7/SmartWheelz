@@ -11,6 +11,7 @@ export interface ICar {
   seating_capacity: number;
   fuel_type: string;
   transmission: string;
+  description: string;
 }
 
 export interface CarForm {

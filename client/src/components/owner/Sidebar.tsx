@@ -28,7 +28,7 @@ export default function Sidebar() {
       } else {
         toast.error(data.message);
       }
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   };
@@ -41,7 +41,6 @@ export default function Sidebar() {
 
   return (
     <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
-      {/* USER AVATAR */}
       <div className="group relative">
         <label htmlFor="image">
           <img
@@ -61,14 +60,12 @@ export default function Sidebar() {
             }}
           />
 
-          {/* Hover overlay */}
           <div className="absolute hidden top-0 right-0 left-0 bottom-0 bg-black/10 rounded-full group-hover:flex items-center justify-center cursor-pointer">
             <img src={assets.edit_icon} alt="edit" />
           </div>
         </label>
       </div>
 
-      {/* Save button */}
       {image && (
         <button
           onClick={updateImage}
@@ -79,10 +76,8 @@ export default function Sidebar() {
         </button>
       )}
 
-      {/* User name */}
       <p className="mt-2 text-base max-md:hidden">{user?.name}</p>
 
-      {/* MENU */}
       <div className="w-full mt-4">
         {ownerMenuLinks.map((link, index) => {
           const active = link.path === location.pathname;

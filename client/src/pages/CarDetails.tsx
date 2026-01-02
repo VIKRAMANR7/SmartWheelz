@@ -6,8 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import Loader from "../components/Loader";
 import { useAppContext } from "../context/AppContext";
-import type { AxiosError } from "axios";
 import { getErrorMessage } from "../utils/error";
+import type { ICar } from "../types/car";
 
 export default function CarDetails() {
   const { id } = useParams();
@@ -15,11 +15,10 @@ export default function CarDetails() {
 
   const { cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate } = useAppContext();
 
-  const [car, setCar] = useState<any>(null);
+  const [car, setCar] = useState<ICar | null>(null);
   const currency = import.meta.env.VITE_CURRENCY;
 
-  // Select car only when cars or id changes — prevents unnecessary re-renders
-  const selectedCar = useMemo(() => cars.find((c: any) => c._id === id), [cars, id]);
+  const selectedCar = useMemo(() => cars.find((c) => c._id === id), [cars, id]);
 
   useEffect(() => {
     setCar(selectedCar || null);
@@ -41,15 +40,7 @@ export default function CarDetails() {
       } else {
         toast.error(data.message);
       }
-    } catch (err: any) {
-      const error = err as AxiosError<{ message?: string }>;
-
-      if (error.response?.status === 401) {
-        toast.error("Please log in to book a car.");
-        navigate("/");
-        return;
-      }
-
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   };
@@ -67,7 +58,6 @@ export default function CarDetails() {
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-        {/* Car Images + Details */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -83,7 +73,6 @@ export default function CarDetails() {
             className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-6 shadow-md"
           />
 
-          {/* Car Info */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -101,7 +90,6 @@ export default function CarDetails() {
 
             <hr className="border-borderColor my-6" />
 
-            {/* Features Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
                 { icon: assets.users_icon, text: `${car.seating_capacity} Seats` },
@@ -122,13 +110,11 @@ export default function CarDetails() {
               ))}
             </div>
 
-            {/* Description */}
             <div>
               <h1 className="text-xl font-medium mb-3">Description</h1>
               <p className="text-gray-500">{car.description}</p>
             </div>
 
-            {/* Features */}
             <div>
               <h1 className="text-xl font-medium mb-3">Features</h1>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -145,7 +131,6 @@ export default function CarDetails() {
           </motion.div>
         </motion.div>
 
-        {/* Booking Form */}
         <motion.form
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -160,7 +145,6 @@ export default function CarDetails() {
 
           <hr className="border-borderColor my-6" />
 
-          {/* Dates */}
           <div className="flex flex-col gap-2">
             <label htmlFor="pickup-date">Pickup Date</label>
             <input

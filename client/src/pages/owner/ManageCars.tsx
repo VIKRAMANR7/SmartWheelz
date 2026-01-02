@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
+
 import { assets } from "../../assets/assets";
 import Title from "../../components/owner/OwnerSectionHeader";
 import { useAppContext } from "../../context/AppContext";
 import { getErrorMessage } from "../../utils/error";
-
 import type { CarDashboardItem } from "../../types/car";
 
 export default function ManageCars() {
@@ -15,7 +15,7 @@ export default function ManageCars() {
     try {
       const { data } = await axios.get("/api/owner/cars");
       data.success ? setCars(data.cars) : toast.error(data.message);
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   }, [axios]);
@@ -26,7 +26,7 @@ export default function ManageCars() {
         const { data } = await axios.post("/api/owner/toggle-car", { carId });
         data.success ? toast.success(data.message) : toast.error(data.message);
         await fetchOwnerCars();
-      } catch (err: unknown) {
+      } catch (err) {
         toast.error(getErrorMessage(err));
       }
     },
@@ -44,7 +44,7 @@ export default function ManageCars() {
         const { data } = await axios.post("/api/owner/delete-car", { carId });
         data.success ? toast.success(data.message) : toast.error(data.message);
         await fetchOwnerCars();
-      } catch (err: unknown) {
+      } catch (err) {
         toast.error(getErrorMessage(err));
       }
     },
@@ -53,14 +53,14 @@ export default function ManageCars() {
 
   const deleteCarPermanently = useCallback(
     async (carId: string) => {
-      const confirmed = window.confirm("⚠️ Are you sure you want to permanently delete this car?");
+      const confirmed = window.confirm("Are you sure you want to permanently delete this car?");
       if (!confirmed) return;
 
       try {
         const { data } = await axios.delete(`/api/owner/delete-car/${carId}`);
         data.success ? toast.success(data.message) : toast.error(data.message);
         await fetchOwnerCars();
-      } catch (err: unknown) {
+      } catch (err) {
         toast.error(getErrorMessage(err));
       }
     },
@@ -105,12 +105,12 @@ export default function ManageCars() {
                       {car.brand} {car.model}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {car.seating_capacity ?? "-"} &bull; {car.transmission ?? "-"}
+                      {car.seating_capacity} &bull; {car.transmission}
                     </p>
                   </div>
                 </td>
 
-                <td className="p-3 max-md:hidden">{car.category ?? "-"}</td>
+                <td className="p-3 max-md:hidden">{car.category}</td>
 
                 <td className="p-3">
                   {currency}

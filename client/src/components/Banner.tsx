@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+
 import { assets } from "../assets/assets";
 
 export default function Banner() {
@@ -10,7 +11,6 @@ export default function Banner() {
       viewport={{ once: true }}
       className="flex flex-col md:flex-row md:items-start items-center justify-between px-8 md:pl-14 pt-10 bg-linear-to-r from-[#0558fe] to-[#a9cfff] max-w-6xl mx-3 md:mx-auto rounded-2xl overflow-hidden"
     >
-      {/* Left Text Block */}
       <div className="text-white">
         <h2 className="text-3xl font-medium">Do You Own a Luxury Car?</h2>
 
@@ -30,7 +30,6 @@ export default function Banner() {
         </motion.button>
       </div>
 
-      {/* Right Image */}
       <motion.img
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}

@@ -9,9 +9,11 @@ import type { IUser } from "../types/user";
 import type { ICar } from "../types/car";
 import type { IAppContext } from "../types/context";
 
+const SESSION_TIMEOUT = 15 * 60 * 1000;
+
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
-export const AppContext = createContext<IAppContext | undefined>(undefined);
+const AppContext = createContext<IAppContext | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
@@ -26,7 +28,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [returnDate, setReturnDate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // TOKEN HANDLING
   const applyToken = useCallback((newToken: string) => {
     setTokenState(newToken);
     localStorage.setItem("token", newToken);
@@ -43,9 +44,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (!silent) toast.success(message);
   }, []);
 
-  // VERIFY USER
   const verifyAndFetchUser = useCallback(
-    async (setLoadingState = true): Promise<void> => {
+    async (setLoadingState = true) => {
       try {
         const { data } = await axios.get("/api/user/data");
 
@@ -54,11 +54,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           setIsOwner(data.user.role === "owner");
         } else {
           logout(true);
-          console.log("Token verification failed:", data.message);
         }
-      } catch (err: unknown) {
+      } catch {
         logout(true);
-        console.log("Token verification error:", getErrorMessage(err));
       } finally {
         if (setLoadingState) setIsLoading(false);
       }
@@ -66,8 +64,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [logout]
   );
 
-  // FETCH CARS
-  const fetchCars = useCallback(async (): Promise<void> => {
+  const fetchCars = useCallback(async () => {
     try {
       const { data } = await axios.get("/api/user/cars");
 
@@ -76,77 +73,59 @@ export function AppProvider({ children }: { children: ReactNode }) {
       } else {
         toast.error(data.message);
       }
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   }, []);
 
-  // INITIAL APP LOAD
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
     if (storedToken) {
       applyToken(storedToken);
-
-      // Fetch user
       verifyAndFetchUser();
 
-      // Auto-logout after 15 mins
       const sessionTimeout = setTimeout(
         () => logout(false, "Session expired. Please log in again."),
-        15 * 60 * 1000
+        SESSION_TIMEOUT
       );
 
-      // Fetch cars for users
       fetchCars();
 
       return () => clearTimeout(sessionTimeout);
     }
 
-    // No token: end loading + fetch public cars
     setIsLoading(false);
     fetchCars();
+  }, [applyToken, verifyAndFetchUser, logout, fetchCars]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // CONTEXT VALUE
   const value: IAppContext = {
     currency,
     navigate,
-
     user,
     setUser,
-
     isOwner,
     setIsOwner,
-
     showLogin,
     setShowLogin,
-
     token,
     setToken: applyToken,
     logout,
-
     cars,
     setCars,
     fetchCars,
-
     pickupDate,
     setPickupDate,
     returnDate,
     setReturnDate,
-
     isLoading,
     verifyAndFetchUser,
-
     axios,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
-// HOOK
 export function useAppContext() {
   const ctx = useContext(AppContext);
   if (!ctx) throw new Error("useAppContext must be used inside <AppProvider>");

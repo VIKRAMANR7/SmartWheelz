@@ -8,6 +8,7 @@ import CarCard from "../components/CarCard";
 import Title from "../components/Title";
 import { useAppContext } from "../context/AppContext";
 import { getErrorMessage } from "../utils/error";
+import type { ICar } from "../types/car";
 
 export default function Cars() {
   const [searchParams] = useSearchParams();
@@ -19,13 +20,10 @@ export default function Cars() {
   const { cars, axios } = useAppContext();
 
   const [search, setSearch] = useState("");
-  const [filteredCars, setFilteredCars] = useState<any[]>([]);
+  const [filteredCars, setFilteredCars] = useState<ICar[]>([]);
 
   const isAvailabilitySearch = pickupLocation && pickupDate && returnDate;
 
-  /** ----------------------------
-   * LOCAL SEARCH FILTER (brand/model/category/transmission)
-   ------------------------------*/
   const applyLocalFilter = useCallback(() => {
     if (!search.trim()) {
       setFilteredCars(cars);
@@ -34,7 +32,7 @@ export default function Cars() {
 
     const q = search.toLowerCase();
 
-    const filtered = cars.filter((car: any) =>
+    const filtered = cars.filter((car) =>
       [car.brand, car.model, car.category, car.transmission].some((field) =>
         field.toLowerCase().includes(q)
       )
@@ -43,7 +41,6 @@ export default function Cars() {
     setFilteredCars(filtered);
   }, [search, cars]);
 
-  //API SEARCH → CHECK AVAILABILITY
   const fetchAvailability = useCallback(async () => {
     try {
       const { data } = await axios.post("/api/bookings/check-availability", {
@@ -66,20 +63,16 @@ export default function Cars() {
     }
   }, [axios, pickupLocation, pickupDate, returnDate]);
 
-  /** RUN AVAILABILITY SEARCH IF URL HAS PARAMS */
   useEffect(() => {
     if (isAvailabilitySearch) fetchAvailability();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAvailabilitySearch, fetchAvailability]);
 
-  /** APPLY LOCAL FILTER WHEN INPUT CHANGES */
   useEffect(() => {
     if (!isAvailabilitySearch) applyLocalFilter();
   }, [search, cars, isAvailabilitySearch, applyLocalFilter]);
 
   return (
     <div>
-      {/* ---------------- HEADER + SEARCH ---------------- */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -92,7 +85,6 @@ export default function Cars() {
           align="center"
         />
 
-        {/* Search Bar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,7 +105,6 @@ export default function Cars() {
         </motion.div>
       </motion.div>
 
-      {/* ---------------- CARS GRID ---------------- */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

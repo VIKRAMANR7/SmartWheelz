@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
 export interface IUser {
   name: string;
@@ -6,6 +6,10 @@ export interface IUser {
   password: string;
   role: "owner" | "user";
   image: string;
+}
+
+export interface IUserWithId extends IUser {
+  _id: Types.ObjectId;
 }
 
 const userSchema = new Schema<IUser>(
@@ -19,6 +23,6 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-export const User = mongoose.model<IUser>("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;

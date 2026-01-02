@@ -1,16 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
+
 import { assets } from "../../assets/assets";
 import OwnerSectionHeader from "../../components/owner/OwnerSectionHeader";
 import { useAppContext } from "../../context/AppContext";
 import { getErrorMessage } from "../../utils/error";
-
 import type { DashboardData } from "../../types/booking";
 
 export default function Dashboard() {
   const { axios, isOwner, currency } = useAppContext();
 
-  // State fully typed using DashboardData
   const [data, setData] = useState<DashboardData>({
     totalCars: 0,
     totalBookings: 0,
@@ -29,7 +28,7 @@ export default function Dashboard() {
       } else {
         toast.error(res.data.message);
       }
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   }, [axios]);
@@ -54,7 +53,6 @@ export default function Dashboard() {
         subTitle="Monitor overall platform performance including total cars, bookings, revenue and recent activities"
       />
 
-      {/* Cards */}
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8 max-w-3xl">
         {dashboardCards.map((card, index) => (
           <div
@@ -72,9 +70,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Recent bookings + Monthly revenue */}
       <div className="flex flex-wrap items-start gap-6 mb-8 w-full">
-        {/* Recent bookings */}
         <div className="p-4 md:p-6 border border-borderColor rounded-md max-w-lg w-full">
           <h1 className="text-lg font-medium">Recent Bookings</h1>
           <p className="text-gray-500">Latest customer bookings</p>
@@ -110,7 +106,6 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Monthly revenue */}
         <div className="p-4 md:p-6 mb-6 border border-borderColor rounded-md w-full md:max-w-xs">
           <h1 className="text-lg font-medium">Monthly Revenue</h1>
           <p className="text-gray-500">Revenue for current month</p>

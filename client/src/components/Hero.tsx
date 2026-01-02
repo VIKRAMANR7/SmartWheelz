@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
+
 import { assets, cityList } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
@@ -8,7 +9,7 @@ export default function Hero() {
 
   const { pickupDate, setPickupDate, returnDate, setReturnDate, navigate } = useAppContext();
 
-  const handleSearch = (e: FormEvent) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
     navigate(
@@ -23,7 +24,6 @@ export default function Hero() {
       transition={{ duration: 0.8 }}
       className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center"
     >
-      {/* Main Title */}
       <motion.h1
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -33,7 +33,6 @@ export default function Hero() {
         Luxury cars on Rent
       </motion.h1>
 
-      {/* Search Form */}
       <motion.form
         onSubmit={handleSearch}
         initial={{ scale: 0.95, opacity: 0, y: 50 }}
@@ -44,7 +43,6 @@ export default function Hero() {
           bg-white shadow-[0_8px_20px_rgb(0,0,0,0.1)]"
       >
         <div className="flex flex-col md:flex-row items-start md:items-center gap-10 md:ml-8">
-          {/* Pickup Location */}
           <div className="flex flex-col items-start gap-2">
             <select
               required
@@ -64,7 +62,6 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Pickup Date */}
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="pickup-date">Pick-up Date</label>
             <input
@@ -78,7 +75,6 @@ export default function Hero() {
             />
           </div>
 
-          {/* Return Date */}
           <div className="flex flex-col items-start gap-2">
             <label htmlFor="return-date">Return Date</label>
             <input
@@ -92,7 +88,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Search Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -104,7 +99,6 @@ export default function Hero() {
         </motion.button>
       </motion.form>
 
-      {/* Car Image */}
       <motion.img
         src={assets.main_car}
         alt="car"

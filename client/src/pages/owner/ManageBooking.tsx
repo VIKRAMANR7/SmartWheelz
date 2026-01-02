@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
+
 import { assets } from "../../assets/assets";
 import Title from "../../components/owner/OwnerSectionHeader";
 import { useAppContext } from "../../context/AppContext";
 import { getErrorMessage } from "../../utils/error";
-
 import type { OwnerBooking } from "../../types/booking";
 
 export default function ManageBooking() {
@@ -20,7 +20,7 @@ export default function ManageBooking() {
       } else {
         toast.error(data.message);
       }
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     }
   }, [axios]);
@@ -39,7 +39,7 @@ export default function ManageBooking() {
         } else {
           toast.error(data.message);
         }
-      } catch (err: unknown) {
+      } catch (err) {
         toast.error(getErrorMessage(err));
       }
     },

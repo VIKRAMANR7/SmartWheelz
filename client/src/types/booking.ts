@@ -1,4 +1,4 @@
-import { ICar } from "./car";
+import type { ICar } from "./car";
 
 export interface IBooking {
   _id: string;
@@ -25,17 +25,19 @@ export interface OwnerBooking {
   createdAt: string;
 }
 
+export interface RecentBooking {
+  _id: string;
+  car?: { brand: string; model: string };
+  createdAt: string;
+  price: number;
+  status: string;
+}
+
 export interface DashboardData {
   totalCars: number;
   totalBookings: number;
   pendingBookings: number;
   completedBookings: number;
-  recentBookings: {
-    _id: string;
-    car?: { brand: string; model: string };
-    createdAt: string;
-    price: number;
-    status: string;
-  }[];
+  recentBookings: RecentBooking[];
   monthlyRevenue: number;
 }

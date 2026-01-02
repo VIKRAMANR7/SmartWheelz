@@ -1,10 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+
 import { assets } from "../../assets/assets";
 import Title from "../../components/owner/OwnerSectionHeader";
 import { useAppContext } from "../../context/AppContext";
 import { getErrorMessage } from "../../utils/error";
-
 import type { CarForm } from "../../types/car";
 
 const initialCarData: CarForm = {
@@ -37,7 +37,6 @@ export default function AddCar() {
       const formData = new FormData();
       if (image) formData.append("image", image);
 
-      // Convert number fields before sending
       const formattedCar = {
         ...car,
         year: Number(car.year),
@@ -56,7 +55,7 @@ export default function AddCar() {
       } else {
         toast.error(data.message);
       }
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error(getErrorMessage(err));
     } finally {
       setIsLoading(false);
@@ -74,7 +73,6 @@ export default function AddCar() {
         onSubmit={onSubmitHandler}
         className="flex flex-col gap-5 text-gray-500 text-sm mt-6 max-w-xl"
       >
-        {/* Image Upload */}
         <div className="flex items-center gap-2 w-full">
           <label htmlFor="car-image">
             <img
@@ -93,7 +91,6 @@ export default function AddCar() {
           <p className="text-sm text-gray-500">Upload a picture of your car</p>
         </div>
 
-        {/* Brand & Model */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col">
             <label>Brand</label>
@@ -120,7 +117,6 @@ export default function AddCar() {
           </div>
         </div>
 
-        {/* Year, Price, Category */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <div className="flex flex-col">
             <label>Year</label>
@@ -161,7 +157,6 @@ export default function AddCar() {
           </div>
         </div>
 
-        {/* Transmission, Fuel, Seating */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <div className="flex flex-col">
             <label>Transmission</label>
@@ -204,7 +199,6 @@ export default function AddCar() {
           </div>
         </div>
 
-        {/* Location */}
         <div className="flex flex-col">
           <label>Location</label>
           <select
@@ -220,7 +214,6 @@ export default function AddCar() {
           </select>
         </div>
 
-        {/* Description */}
         <div className="flex flex-col">
           <label>Description</label>
           <textarea

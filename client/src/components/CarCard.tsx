@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import { assets } from "../assets/assets";
 import type { ICar } from "../types/car";
 
@@ -20,7 +21,6 @@ export default function CarCard({ car }: CarCardProps) {
       onClick={goToDetails}
       className="group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer"
     >
-      {/* Image Section */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={car.image}
@@ -43,9 +43,7 @@ export default function CarCard({ car }: CarCardProps) {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-4 sm:p-5">
-        {/* Name, model, category */}
         <div className="flex justify-between items-start mb-2">
           <div>
             <h3 className="text-lg font-medium">
@@ -57,27 +55,22 @@ export default function CarCard({ car }: CarCardProps) {
           </div>
         </div>
 
-        {/* 4 Spec Grid – EXACT SAME ORDER AS CAR DETAILS */}
         <div className="mt-4 grid grid-cols-2 gap-y-2 text-gray-600 text-sm">
-          {/* Seats */}
           <div className="flex items-center text-muted-foreground">
             <img src={assets.users_icon} alt="" className="h-4 mr-2" />
             <span>{car.seating_capacity} Seats</span>
           </div>
 
-          {/* Fuel Type */}
           <div className="flex items-center text-muted-foreground">
             <img src={assets.fuel_icon} alt="" className="h-4 mr-2" />
             <span>{car.fuel_type}</span>
           </div>
 
-          {/* Transmission */}
           <div className="flex items-center text-muted-foreground">
             <img src={assets.car_icon} alt="" className="h-4 mr-2" />
             <span>{car.transmission}</span>
           </div>
 
-          {/* Location */}
           <div className="flex items-center text-muted-foreground">
             <img src={assets.location_icon} alt="" className="h-4 mr-2" />
             <span>{car.location}</span>

@@ -18,7 +18,6 @@ export default function FeaturedSection() {
       viewport={{ once: true }}
       className="flex flex-col items-center py-24 px-6 md:px-16 lg:px-24 xl:px-32"
     >
-      {/* Title */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -31,7 +30,6 @@ export default function FeaturedSection() {
         />
       </motion.div>
 
-      {/* Car Grid */}
       <motion.div
         initial={{ opacity: 0, y: 80 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +50,6 @@ export default function FeaturedSection() {
         ))}
       </motion.div>
 
-      {/* Button */}
       <motion.button
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

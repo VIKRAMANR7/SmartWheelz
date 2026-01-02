@@ -1,12 +1,12 @@
 import { motion } from "motion/react";
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
+
 import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import { useAppContext } from "../context/AppContext";
-import type { IBooking } from "../types/booking";
-import type { AxiosError } from "axios";
 import { getErrorMessage } from "../utils/error";
+import type { IBooking } from "../types/booking";
 
 export default function MyBookings() {
   const { axios, user, currency, navigate, isLoading } = useAppContext();
@@ -25,20 +25,13 @@ export default function MyBookings() {
       } else {
         toast.error(data.message);
       }
-    } catch (err: unknown) {
-      const error = err as AxiosError<{ message?: string }>;
-      if (error.response?.status === 401) {
-        toast.error("Please log in to view your bookings.");
-        navigate("/");
-        return;
-      }
+    } catch (err) {
       toast.error(getErrorMessage(err));
     } finally {
       setFetchingBookings(false);
     }
-  }, [axios, navigate]);
+  }, [axios]);
 
-  // Wait until authentication finishes
   useEffect(() => {
     if (isLoading) return;
 
@@ -51,7 +44,6 @@ export default function MyBookings() {
     fetchMyBookings();
   }, [user, isLoading, fetchMyBookings, navigate]);
 
-  // Loader during authentication check
   if (isLoading) {
     return (
       <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-16">
@@ -100,7 +92,6 @@ export default function MyBookings() {
               transition={{ duration: 0.4, delay: index * 0.1 }}
               className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-borderColor rounded-lg mt-6"
             >
-              {/* Car */}
               <div>
                 <img
                   src={booking.car.image}
@@ -120,7 +111,6 @@ export default function MyBookings() {
                 </p>
               </div>
 
-              {/* Booking Info */}
               <div className="md:col-span-2 space-y-3">
                 <div className="flex items-center gap-2">
                   <p className="px-3 py-1.5 bg-light rounded">Booking #{index + 1}</p>
@@ -158,7 +148,6 @@ export default function MyBookings() {
                 </div>
               </div>
 
-              {/* Price */}
               <div className="text-right">
                 <p className="text-gray-500">Total Price</p>
                 <h1 className="text-2xl font-semibold text-primary">

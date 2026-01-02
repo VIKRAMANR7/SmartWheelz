@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+
 import { assets, footerLinks } from "../assets/assets";
 
 export default function Footer() {
@@ -9,7 +10,6 @@ export default function Footer() {
       transition={{ duration: 0.6 }}
       className="px-16 md:px-16 lg:px-24 xl:px-32 mt-60 text-sm text-gray-500"
     >
-      {/* Top Section */}
       <div className="flex flex-wrap justify-between gap-8 pb-6 border-b border-borderColor">
         <div>
           <img src={assets.logo} alt="logo" className="mb-4" />
@@ -33,7 +33,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Footer Columns – kept inline, not extracted */}
         <div className="flex flex-wrap justify-between w-1/2 gap-8">
           <div>
             <h2 className="text-base font-medium text-gray-800 uppercase">Quick Links</h2>
@@ -68,7 +67,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Section */}
       <div className="flex flex-col md:flex-row gap-2 items-center justify-between py-5">
         <p>© {new Date().getFullYear()} SmartWheelz. All rights reserved.</p>
         <ul className="flex items-center gap-4">

@@ -7,31 +7,28 @@ import Car from "../models/Car.js";
 import User from "../models/User.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 
-// Change role from user → owner
 export const changeRoleToOwner = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
+
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   await User.findByIdAndUpdate(user._id, { role: "owner" });
 
-  res.json({
-    success: true,
-    message: "Role changed to owner successfully",
-  });
+  return res.json({ success: true, message: "Role changed to owner successfully" });
 });
 
-// Add Car
 export const addCar = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
+
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const file = req.file;
   if (!file) {
-    throw new Error("Image file is required");
+    return res.status(400).json({ success: false, message: "Image file is required" });
   }
 
   const carData = JSON.parse(req.body.carData);
@@ -54,108 +51,87 @@ export const addCar = asyncHandler(async (req: Request, res: Response) => {
     image: imageUrl,
   });
 
-  res.json({
-    success: true,
-    message: "Car added successfully",
-  });
+  return res.json({ success: true, message: "Car added successfully" });
 });
 
-// Get Owner Cars
 export const getOwnerCars = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const cars = await Car.find({ owner: user._id });
 
-  res.json({
-    success: true,
-    message: "Cars fetched successfully",
-    cars,
-  });
+  return res.json({ success: true, message: "Cars fetched successfully", cars });
 });
 
-// Toggle Car Availability
 export const toggleCarAvailability = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const { carId } = req.body;
   const car = await Car.findById(carId);
 
   if (!car) {
-    throw new Error("Car not found");
+    return res.status(404).json({ success: false, message: "Car not found" });
   }
 
   if (!car.owner || car.owner.toString() !== user._id.toString()) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   car.isAvailable = !car.isAvailable;
   await car.save();
 
-  res.json({
-    success: true,
-    message: "Car availability toggled successfully",
-  });
+  return res.json({ success: true, message: "Car availability toggled successfully" });
 });
 
-// Soft Delete Car
 export const deleteCar = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const { carId } = req.body;
   const car = await Car.findById(carId);
 
   if (!car) {
-    throw new Error("Car not found");
+    return res.status(404).json({ success: false, message: "Car not found" });
   }
 
   if (!car.owner || car.owner.toString() !== user._id.toString()) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   car.owner = null;
   car.isAvailable = false;
   await car.save();
 
-  res.json({
-    success: true,
-    message: "Car removed",
-  });
+  return res.json({ success: true, message: "Car removed" });
 });
 
-// Permanent Delete Car
 export const deleteCarPermanently = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const car = await Car.findByIdAndDelete(id);
 
   if (!car) {
-    throw new Error("Car not found");
+    return res.status(404).json({ success: false, message: "Car not found" });
   }
 
-  res.json({
-    success: true,
-    message: "Car permanently deleted",
-  });
+  return res.json({ success: true, message: "Car permanently deleted" });
 });
 
-// Dashboard Data
 export const getDashboardData = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   if (!user || user.role !== "owner") {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const cars = await Car.find({ owner: user._id });
@@ -169,7 +145,7 @@ export const getDashboardData = asyncHandler(async (req: Request, res: Response)
     .filter((b) => b.status === "confirmed")
     .reduce((sum, b) => sum + b.price, 0);
 
-  res.json({
+  return res.json({
     success: true,
     message: "Dashboard data fetched successfully",
     dashboardData: {
@@ -183,17 +159,16 @@ export const getDashboardData = asyncHandler(async (req: Request, res: Response)
   });
 });
 
-// Update User Image
 export const updateUserImage = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   const file = req.file;
   if (!file) {
-    throw new Error("Image file is required");
+    return res.status(400).json({ success: false, message: "Image file is required" });
   }
 
   const buffer = fs.readFileSync(file.path);
@@ -211,8 +186,5 @@ export const updateUserImage = asyncHandler(async (req: Request, res: Response) 
 
   await User.findByIdAndUpdate(user._id, { image: imageUrl });
 
-  res.json({
-    success: true,
-    message: "Image updated successfully",
-  });
+  return res.json({ success: true, message: "Image updated successfully" });
 });

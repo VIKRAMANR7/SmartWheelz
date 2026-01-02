@@ -7,7 +7,7 @@ import { AppProvider } from "./context/AppContext";
 
 import "./index.css";
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <AppProvider>
       <MotionConfig>

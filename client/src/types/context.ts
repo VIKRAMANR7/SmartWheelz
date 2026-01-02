@@ -1,3 +1,4 @@
+import type { AxiosInstance } from "axios";
 import type { IUser } from "./user";
 import type { ICar } from "./car";
 
@@ -31,5 +32,5 @@ export interface IAppContext {
   isLoading: boolean;
   verifyAndFetchUser: (setLoadingState?: boolean) => Promise<void>;
 
-  axios: any;
+  axios: AxiosInstance;
 }

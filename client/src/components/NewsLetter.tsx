@@ -29,7 +29,6 @@ export default function NewsLetter() {
         Subscribe to get the latest offers, new arrivals, and exclusive discounts.
       </motion.p>
 
-      {/* Newsletter Form */}
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

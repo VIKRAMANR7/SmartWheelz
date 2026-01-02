@@ -1,8 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { getErrorMessage } from "../utils/error";
+
 import { useAppContext } from "../context/AppContext";
-import type { AxiosError } from "axios";
+import { getErrorMessage } from "../utils/error";
 
 export default function Login() {
   const { setShowLogin, axios, setToken, navigate, verifyAndFetchUser } = useAppContext();
@@ -32,29 +32,19 @@ export default function Login() {
           setEmail("");
           setPassword("");
         } else {
-          // Successful login
           setToken(data.token);
-
           await verifyAndFetchUser(false);
-
           setShowLogin(false);
           toast.success("Login successful!");
           navigate("/");
-
           setEmail("");
           setPassword("");
         }
       } else {
         toast.error(data.message);
       }
-    } catch (error: unknown) {
-      const axiosErr = error as AxiosError<{ message?: string }>;
-      if (axiosErr.response?.status === 401) {
-        setShowLogin(true);
-        return;
-      }
-
-      toast.error(getErrorMessage(error));
+    } catch (err) {
+      toast.error(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }

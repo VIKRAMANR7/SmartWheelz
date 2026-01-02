@@ -1,13 +1,26 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { SESSION_KEY } from "../configs/session.js";
 import { asyncHandler } from "./asyncHandler.js";
+
+function getIdFromToken(token: string) {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+
+  if (
+    typeof decoded === "object" &&
+    decoded !== null &&
+    "id" in decoded &&
+    typeof decoded.id === "string"
+  ) {
+    return decoded.id;
+  }
+
+  throw new Error("Invalid token payload");
+}
 
 export const protect = asyncHandler(async (req: Request, _res: Response, next: NextFunction) => {
   let token = req.headers.authorization;
 
-  // Extract Bearer token
   if (token?.startsWith("Bearer ")) {
     token = token.split(" ")[1];
   }
@@ -16,12 +29,9 @@ export const protect = asyncHandler(async (req: Request, _res: Response, next: N
     throw new Error("Not authorized, no token");
   }
 
-  // Decode token
-  const decoded = jwt.verify(token, process.env.JWT_SECRET + SESSION_KEY) as {
-    id: string;
-  };
+  const userId = getIdFromToken(token);
 
-  const user = await User.findById(decoded.id).select("-password");
+  const user = await User.findById(userId).select("-password");
 
   if (!user) {
     throw new Error("User not found");
