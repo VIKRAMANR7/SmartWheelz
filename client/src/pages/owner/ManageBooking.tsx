@@ -78,7 +78,7 @@ export default function ManageBooking() {
                       <img
                         src={booking.car.image || assets.placeholder_car}
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = assets.placeholder_car;
+                          e.currentTarget.src = assets.placeholder_car;
                         }}
                         alt="Car"
                         className="size-12 aspect-square rounded-md object-cover"

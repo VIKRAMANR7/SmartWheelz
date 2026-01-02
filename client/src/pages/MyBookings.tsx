@@ -98,7 +98,7 @@ export default function MyBookings() {
                   alt={`${booking.car.brand} ${booking.car.model}`}
                   className="rounded-md w-full aspect-video object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/placeholder-car.jpg";
+                    e.currentTarget.src = "/placeholder-car.jpg";
                   }}
                 />
 
