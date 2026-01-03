@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
@@ -24,7 +24,35 @@ export default function Cars() {
 
   const isAvailabilitySearch = pickupLocation && pickupDate && returnDate;
 
-  const applyLocalFilter = useCallback(() => {
+  useEffect(() => {
+    async function fetchAvailability() {
+      try {
+        const { data } = await axios.post("/api/bookings/check-availability", {
+          location: pickupLocation,
+          pickupDate,
+          returnDate,
+        });
+
+        if (data.success) {
+          setFilteredCars(data.availableCars);
+
+          if (data.availableCars.length === 0) {
+            toast("No cars available for the given date range");
+          }
+        } else {
+          toast.error(data.message);
+        }
+      } catch (err) {
+        toast.error(getErrorMessage(err));
+      }
+    }
+
+    if (isAvailabilitySearch) fetchAvailability();
+  }, [isAvailabilitySearch, axios, pickupLocation, pickupDate, returnDate]);
+
+  useEffect(() => {
+    if (isAvailabilitySearch) return;
+
     if (!search.trim()) {
       setFilteredCars(cars);
       return;
@@ -39,37 +67,7 @@ export default function Cars() {
     );
 
     setFilteredCars(filtered);
-  }, [search, cars]);
-
-  const fetchAvailability = useCallback(async () => {
-    try {
-      const { data } = await axios.post("/api/bookings/check-availability", {
-        location: pickupLocation,
-        pickupDate,
-        returnDate,
-      });
-
-      if (data.success) {
-        setFilteredCars(data.availableCars);
-
-        if (data.availableCars.length === 0) {
-          toast("No cars available for the given date range");
-        }
-      } else {
-        toast.error(data.message);
-      }
-    } catch (err) {
-      toast.error(getErrorMessage(err));
-    }
-  }, [axios, pickupLocation, pickupDate, returnDate]);
-
-  useEffect(() => {
-    if (isAvailabilitySearch) fetchAvailability();
-  }, [isAvailabilitySearch, fetchAvailability]);
-
-  useEffect(() => {
-    if (!isAvailabilitySearch) applyLocalFilter();
-  }, [search, cars, isAvailabilitySearch, applyLocalFilter]);
+  }, [search, cars, isAvailabilitySearch]);
 
   return (
     <div>

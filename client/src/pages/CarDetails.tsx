@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -7,7 +6,6 @@ import { assets } from "../assets/assets";
 import Loader from "../components/Loader";
 import { useAppContext } from "../context/AppContext";
 import { getErrorMessage } from "../utils/error";
-import type { ICar } from "../types/car";
 
 export default function CarDetails() {
   const { id } = useParams();
@@ -15,16 +13,10 @@ export default function CarDetails() {
 
   const { cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate } = useAppContext();
 
-  const [car, setCar] = useState<ICar | null>(null);
   const currency = import.meta.env.VITE_CURRENCY;
+  const car = cars.find((c) => c._id === id) || null;
 
-  const selectedCar = useMemo(() => cars.find((c) => c._id === id), [cars, id]);
-
-  useEffect(() => {
-    setCar(selectedCar || null);
-  }, [selectedCar]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -43,7 +35,7 @@ export default function CarDetails() {
     } catch (err) {
       toast.error(getErrorMessage(err));
     }
-  };
+  }
 
   if (!car) return <Loader />;
 

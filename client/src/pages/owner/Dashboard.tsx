@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { assets } from "../../assets/assets";
@@ -19,25 +19,23 @@ export default function Dashboard() {
     monthlyRevenue: 0,
   });
 
-  const fetchDashboardData = useCallback(async () => {
-    try {
-      const res = await axios.get("/api/owner/dashboard");
-
-      if (res.data.success) {
-        setData(res.data.dashboardData);
-      } else {
-        toast.error(res.data.message);
-      }
-    } catch (err) {
-      toast.error(getErrorMessage(err));
-    }
-  }, [axios]);
-
   useEffect(() => {
-    if (isOwner) {
-      fetchDashboardData();
+    async function fetchDashboardData() {
+      try {
+        const res = await axios.get("/api/owner/dashboard");
+
+        if (res.data.success) {
+          setData(res.data.dashboardData);
+        } else {
+          toast.error(res.data.message);
+        }
+      } catch (err) {
+        toast.error(getErrorMessage(err));
+      }
     }
-  }, [isOwner, fetchDashboardData]);
+
+    if (isOwner) fetchDashboardData();
+  }, [isOwner, axios]);
 
   const dashboardCards = [
     { title: "Total Cars", value: data.totalCars, icon: assets.carIconColored },

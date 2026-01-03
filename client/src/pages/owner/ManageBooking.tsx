@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { assets } from "../../assets/assets";
@@ -11,7 +11,7 @@ export default function ManageBooking() {
   const { currency, axios } = useAppContext();
   const [bookings, setBookings] = useState<OwnerBooking[]>([]);
 
-  const fetchOwnerBookings = useCallback(async () => {
+  async function fetchOwnerBookings() {
     try {
       const { data } = await axios.get("/api/bookings/owner");
 
@@ -23,32 +23,30 @@ export default function ManageBooking() {
     } catch (err) {
       toast.error(getErrorMessage(err));
     }
-  }, [axios]);
+  }
 
-  const changeBookingStatus = useCallback(
-    async (bookingId: string, status: string) => {
-      try {
-        const { data } = await axios.post("/api/bookings/change-status", {
-          bookingId,
-          status,
-        });
+  async function changeBookingStatus(bookingId: string, status: string) {
+    try {
+      const { data } = await axios.post("/api/bookings/change-status", {
+        bookingId,
+        status,
+      });
 
-        if (data.success) {
-          toast.success(data.message);
-          fetchOwnerBookings();
-        } else {
-          toast.error(data.message);
-        }
-      } catch (err) {
-        toast.error(getErrorMessage(err));
+      if (data.success) {
+        toast.success(data.message);
+        fetchOwnerBookings();
+      } else {
+        toast.error(data.message);
       }
-    },
-    [axios, fetchOwnerBookings]
-  );
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  }
 
   useEffect(() => {
     fetchOwnerBookings();
-  }, [fetchOwnerBookings]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="px-4 pt-10 md:px-10 w-full">

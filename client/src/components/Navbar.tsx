@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export default function Navbar() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  const changeRole = useCallback(async () => {
+  async function changeRole() {
     try {
       const { data } = await axios.post("/api/owner/change-role");
 
@@ -28,7 +28,7 @@ export default function Navbar() {
     } catch (err) {
       toast.error(getErrorMessage(err));
     }
-  }, [axios, navigate, setIsOwner]);
+  }
 
   if (isLoading) {
     return (

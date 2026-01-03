@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { assets } from "../assets/assets";
@@ -14,25 +14,25 @@ export default function MyBookings() {
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [fetchingBookings, setFetchingBookings] = useState(false);
 
-  const fetchMyBookings = useCallback(async () => {
-    setFetchingBookings(true);
-
-    try {
-      const { data } = await axios.get("/api/bookings/user");
-
-      if (data.success) {
-        setBookings(data.bookings);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (err) {
-      toast.error(getErrorMessage(err));
-    } finally {
-      setFetchingBookings(false);
-    }
-  }, [axios]);
-
   useEffect(() => {
+    async function fetchMyBookings() {
+      setFetchingBookings(true);
+
+      try {
+        const { data } = await axios.get("/api/bookings/user");
+
+        if (data.success) {
+          setBookings(data.bookings);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (err) {
+        toast.error(getErrorMessage(err));
+      } finally {
+        setFetchingBookings(false);
+      }
+    }
+
     if (isLoading) return;
 
     if (!user) {
@@ -42,7 +42,7 @@ export default function MyBookings() {
     }
 
     fetchMyBookings();
-  }, [user, isLoading, fetchMyBookings, navigate]);
+  }, [user, isLoading, axios, navigate]);
 
   if (isLoading) {
     return (

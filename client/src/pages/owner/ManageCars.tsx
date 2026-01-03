@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { assets } from "../../assets/assets";
@@ -11,65 +11,57 @@ export default function ManageCars() {
   const { isOwner, axios, currency } = useAppContext();
   const [cars, setCars] = useState<CarDashboardItem[]>([]);
 
-  const fetchOwnerCars = useCallback(async () => {
+  async function fetchOwnerCars() {
     try {
       const { data } = await axios.get("/api/owner/cars");
       data.success ? setCars(data.cars) : toast.error(data.message);
     } catch (err) {
       toast.error(getErrorMessage(err));
     }
-  }, [axios]);
+  }
 
-  const toggleAvailability = useCallback(
-    async (carId: string) => {
-      try {
-        const { data } = await axios.post("/api/owner/toggle-car", { carId });
-        data.success ? toast.success(data.message) : toast.error(data.message);
-        await fetchOwnerCars();
-      } catch (err) {
-        toast.error(getErrorMessage(err));
-      }
-    },
-    [axios, fetchOwnerCars]
-  );
+  async function toggleAvailability(carId: string) {
+    try {
+      const { data } = await axios.post("/api/owner/toggle-car", { carId });
+      data.success ? toast.success(data.message) : toast.error(data.message);
+      await fetchOwnerCars();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  }
 
-  const archiveOrRestoreCar = useCallback(
-    async (carId: string, isListed: boolean) => {
-      const confirmed = window.confirm(
-        isListed ? "Are you sure you want to unlist this car?" : "Do you want to relist this car?"
-      );
-      if (!confirmed) return;
+  async function archiveOrRestoreCar(carId: string, isListed: boolean) {
+    const confirmed = window.confirm(
+      isListed ? "Are you sure you want to unlist this car?" : "Do you want to relist this car?"
+    );
+    if (!confirmed) return;
 
-      try {
-        const { data } = await axios.post("/api/owner/delete-car", { carId });
-        data.success ? toast.success(data.message) : toast.error(data.message);
-        await fetchOwnerCars();
-      } catch (err) {
-        toast.error(getErrorMessage(err));
-      }
-    },
-    [axios, fetchOwnerCars]
-  );
+    try {
+      const { data } = await axios.post("/api/owner/delete-car", { carId });
+      data.success ? toast.success(data.message) : toast.error(data.message);
+      await fetchOwnerCars();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  }
 
-  const deleteCarPermanently = useCallback(
-    async (carId: string) => {
-      const confirmed = window.confirm("Are you sure you want to permanently delete this car?");
-      if (!confirmed) return;
+  async function deleteCarPermanently(carId: string) {
+    const confirmed = window.confirm("Are you sure you want to permanently delete this car?");
+    if (!confirmed) return;
 
-      try {
-        const { data } = await axios.delete(`/api/owner/delete-car/${carId}`);
-        data.success ? toast.success(data.message) : toast.error(data.message);
-        await fetchOwnerCars();
-      } catch (err) {
-        toast.error(getErrorMessage(err));
-      }
-    },
-    [axios, fetchOwnerCars]
-  );
+    try {
+      const { data } = await axios.delete(`/api/owner/delete-car/${carId}`);
+      data.success ? toast.success(data.message) : toast.error(data.message);
+      await fetchOwnerCars();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  }
 
   useEffect(() => {
     if (isOwner) fetchOwnerCars();
-  }, [isOwner, fetchOwnerCars]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOwner]);
 
   return (
     <div className="px-4 pt-10 md:px-10 w-full">
@@ -97,7 +89,7 @@ export default function ManageCars() {
                     alt={`${car.brand} ${car.model}`}
                     className="size-12 aspect-square rounded-md object-cover"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = assets.placeholder_car;
+                      e.currentTarget.src = assets.placeholder_car;
                     }}
                   />
                   <div className="max-md:hidden">
